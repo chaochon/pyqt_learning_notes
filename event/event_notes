@@ -1,0 +1,18 @@
+# 常见事件类型
+- 鼠标事件
+- 键盘事件
+- 滑轮事件
+- 拖放事件
+- 绘画事件
+- 定时事件
+
+等等
+
+# 使用事件处理方法
+1. 重写事件函数：比如重写`mousePressEvent() keyPressEvent() paintEvent()`
+2. 重写QObject.event()
+3. 安装事件过滤器
+4. 在application安装事件过滤器
+5. 使用application的notify()函数
+
+# 
