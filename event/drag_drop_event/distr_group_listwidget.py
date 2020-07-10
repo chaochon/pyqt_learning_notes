@@ -15,7 +15,9 @@ class DragListWidget(QListWidget):
         self.move(400, 200)
         self.setWindowTitle("无人平台清单")
         self.init()
+
         self.show()
+
 
     def init(self):
 
@@ -35,8 +37,17 @@ class DragListWidget(QListWidget):
         drag.exec_(supportedActions)
 
 
+    def deleteItem(self, text):
+        resList = self.findItems(text, Qt.MatchExactly)
+        for res in resList:
+            self.takeItem(self.row(res))
+
+
 
 class DropListWidget(QListWidget):
+
+    SigDelete = pyqtSignal(str)
+
     def __init__(self, parent=None):
 
         super(DropListWidget, self).__init__(parent=parent)
@@ -63,6 +74,7 @@ class DropListWidget(QListWidget):
         #     event.acceptProposedAction()
         items = event.mimeData().property('myItems')
         for item in items:
+            self.SigDelete.emit(item.text())
             self.makeItem(item.text())
 
 
@@ -76,4 +88,6 @@ if __name__=='__main__':
     app = QApplication(sys.argv)
     dragWidget = DragListWidget()
     dropWidget = DropListWidget()
+    dropWidget.SigDelete.connect(dragWidget.deleteItem)
+
     sys.exit(app.exec())
